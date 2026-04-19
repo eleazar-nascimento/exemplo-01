@@ -56,7 +56,8 @@ function makeContext(catalog, users) {
         catalog,
         users,
         colorsIndex,
-        categoryIndex,
+        categoriesIndex: categoryIndex,
+        productAvgAgeNorm,
         ageMin,
         ageMax,
         priceMin,
@@ -98,6 +99,8 @@ function encodeProduct(product, context) {
         WEIGHTS.color
     )
 
+   return tf.concat1d([price, age, category, color]);
+
 
 }
 
@@ -111,10 +114,12 @@ async function trainModel({ users }) {
         return {
             name: product.name,
             meta: {...product},
-            vector: encodeProduct(product, context)
+            vector: encodeProduct(product, context).dataSync(),
         }
     })
-    debugger;
+
+    debugger
+
     postMessage({ type: workerEvents.progressUpdate, progress: { progress: 50 } });
     postMessage({
         type: workerEvents.trainingLog,
