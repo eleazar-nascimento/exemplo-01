@@ -3,6 +3,7 @@ import { workerEvents } from '../events/constants.js';
 
 console.log('Model training worker initialized');
 let _globalCtx = {};
+let _model = {};
 
 const WEIGHTS = {
     category: 0.4,
@@ -120,7 +121,9 @@ function createTrainingData(context) {
     const inputs = [];
     const labels = [];
 
-    context.users.forEach(user => {
+    context.users
+    .filter(user => user.purchases.length)
+    .forEach(user => {
         const userVector = encodeUser(user, context).dataSync();
 
         context.products.forEach(product => {
@@ -145,6 +148,45 @@ function createTrainingData(context) {
     // usar esses vetores para treinar um modelo de recomendação
 }
 
+async function configureNeuralNetAndTrain(trainData) {
+
+    const model = tf.sequential();
+
+    // Camada oculta 1
+    // - 64 neurônios (menos que a primeira camada: comeca a comprimir a informação)
+    // - activation relu (introduz não linearidade, ajudando a modelar relações complexas)
+
+    model.add(tf.layers.dense({ inputShape: [trainData.inputDimention], units: 128, activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 64, activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
+
+    model.add(tf.layers.dense({ units: 1, activation: 'sigmoid' }));
+
+    model.compile({
+        optimizer: tf.train.adam(0.001),
+        loss: 'binaryCrossentropy',
+        metrics: ['accuracy'],
+    });
+
+    await model.fit(trainData.xs, trainData.ys, {
+        epochs: 10,
+        batchSize: 32,
+        shuffle: true,
+        callbacks: {
+            onEpochEnd: (epoch, logs) => {
+                postMessage({
+                    type: workerEvents.trainingLog,
+                    epoch,
+                    loss: logs.loss,
+                    accuracy: logs.acc
+                });
+            }
+        }
+    });
+
+    return model;
+}
+
 async function trainModel({ users }) {
     console.log('Training model with users:', users)
     const products = await (await fetch('/data/products.json')).json();
@@ -162,20 +204,10 @@ async function trainModel({ users }) {
     _globalCtx = context;
 
     const trainData = createTrainingData(context);
-    debugger
-    postMessage({ type: workerEvents.progressUpdate, progress: { progress: 50 } });
-    postMessage({
-        type: workerEvents.trainingLog,
-        epoch: 1,
-        loss: 1,
-        accuracy: 1
-    });
-
-    setTimeout(() => {
-        postMessage({ type: workerEvents.progressUpdate, progress: { progress: 100 } });
-        postMessage({ type: workerEvents.trainingComplete });
-    }, 1000);
-
+    _model = await configureNeuralNetAndTrain(trainData);
+ 
+    postMessage({ type: workerEvents.progressUpdate, progress: { progress: 100 } });
+    postMessage({ type: workerEvents.trainingComplete });
 }
 function recommend(user, ctx) {
     console.log('will recommend for user:', user)
