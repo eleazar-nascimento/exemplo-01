@@ -3,7 +3,7 @@ import { workerEvents } from '../events/constants.js';
 
 console.log('Model training worker initialized');
 let _globalCtx = {};
-let _model = {};
+let _model = null;
 
 const WEIGHTS = {
     category: 0.4,
@@ -115,6 +115,15 @@ function encodeUser(user, context) {
         ).mean(0)
         .reshape([1, context.dimentions]);
     }
+
+    return tf.concat1d(
+        [
+            tf.zeros([1]), // preço é ignorado
+            tf.tensor1d([normalize(user.age, context.ageMin, context.ageMax) * WEIGHTS.age]), // idade normalizada
+            tf.zeros([context.numCategories]), // categorias são ignoradas
+            tf.zeros([context.numColors]), // cores são ignoradas
+        ]
+    ).reshape([1, context.dimentions]);
 }
 
 function createTrainingData(context) {
@@ -210,12 +219,59 @@ async function trainModel({ users }) {
     postMessage({ type: workerEvents.trainingComplete });
 }
 function recommend(user, ctx) {
-    console.log('will recommend for user:', user)
-    // postMessage({
-    //     type: workerEvents.recommend,
-    //     user,
-    //     recommendations: []
-    // });
+    if(!_model) {
+        console.warn('Model not trained yet');
+        return;
+    }
+
+    const context = _globalCtx
+
+    const userVector = encodeUser(user, _globalCtx).dataSync();
+
+    // Em Aplicações reais:
+    // Armazene todos os vetores de produtos em um banco de dados
+    // vetorial (como Postgres, Neo4j ou Pinecone), CromaDB
+    // Consulta: Encontre os 200 produtos mais próximos dos usuário
+    // Execute _model.predict() apenas nesses produtos
+
+    // crie pares de entrada: para cada produto, concatene o 
+    // vetor do usuario
+    //.  com o vetor codificado do produto.
+    //   por quê? O modelo prevê o "score de compatibilidade"
+    // para cada par (usuario, produto).
+
+    const inputs = context.productVectors.map(({vector}) => {
+        return [...userVector, ...vector];
+    })
+
+    // Converta todos esses pares (usuarios, produto) em um unico tensor.
+    // Formato: [numProdutos, inputDimention]
+
+    const inputTensor = tf.tensor2d(inputs);
+
+    // Rode a rede neural treinada em todos os pares (usuario, produto) para obter uma vez.
+        // O resultado é uma pontuação para cada produto em entre 0 e 1.
+    
+        // Quanto maior, maior a probabilidade do usuário querer aquele produto.
+
+    const predictions = _model.predict(inputTensor).dataSync();
+        // Extraia as pontuações para un array Js normal.
+
+    const scores = predictions
+    const recommendations = context.productVectors.map((product, index) => ({
+        ...product.meta,
+        name: product.name,
+        score: scores[index], // previsão do modelo para estre produto
+    }))
+
+    const sortedRecommendations = recommendations.sort((a, b) => b.score - a.score);
+
+    
+    postMessage({
+        type: workerEvents.recommend,
+        user,
+        recommendations: sortedRecommendations
+    });
 }
 
 
