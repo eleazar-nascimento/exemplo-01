@@ -34,8 +34,9 @@ export class ModelController {
             this.#modelView.enableRecommendButton();
         });
 
-        this.#events.onTrainingComplete(() => {
+        this.#events.onTrainingComplete((data) => {
             this.#alreadyTrained = true;
+            this.#modelView.updateChromaStatus(data?.chromaAvailable);
             if (!this.#currentUser) return
             this.#modelView.enableRecommendButton();
         })

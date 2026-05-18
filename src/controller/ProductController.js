@@ -33,8 +33,26 @@ export class ProductController {
             this.#events.dispatchRecommend(user)
         })
 
-        this.#events.onRecommendationsReady(({ recommendations }) => {
+        this.#events.onRecommendationsReady(({ recommendations, chromaUsed, totalProducts, candidatesFiltered }) => {
             this.#productView.render(recommendations, false);
+
+            // Atualizar stats do ChromaDB na UI
+            const statsEl = document.querySelector('#chromaStats');
+            if (statsEl) {
+                if (chromaUsed) {
+                    statsEl.innerHTML = `
+                        <small class="text-muted">
+                            <i class="bi bi-funnel"></i> 
+                            ChromaDB: ${candidatesFiltered}/${totalProducts} produtos pré-filtrados
+                        </small>`;
+                } else {
+                    statsEl.innerHTML = `
+                        <small class="text-muted">
+                            <i class="bi bi-collection"></i> 
+                            Analisando todos os ${totalProducts} produtos
+                        </small>`;
+                }
+            }
         });
     }
 

@@ -68,5 +68,635 @@
         "category": "acessórios",
         "price": 89.99,
         "color": "marrom"
+    },
+    {
+        "id": 11,
+        "name": "Teclado Mecânico RGB",
+        "category": "eletrônicos",
+        "price": 249.99,
+        "color": "preto"
+    },
+    {
+        "id": 12,
+        "name": "Mouse Gamer Sem Fio",
+        "category": "eletrônicos",
+        "price": 179.99,
+        "color": "preto"
+    },
+    {
+        "id": 13,
+        "name": "Monitor Ultrawide 29\"",
+        "category": "eletrônicos",
+        "price": 1299.99,
+        "color": "preto"
+    },
+    {
+        "id": 14,
+        "name": "Webcam Full HD",
+        "category": "eletrônicos",
+        "price": 219.99,
+        "color": "preto"
+    },
+    {
+        "id": 15,
+        "name": "Carregador Portátil 20000mAh",
+        "category": "eletrônicos",
+        "price": 99.99,
+        "color": "branco"
+    },
+    {
+        "id": 16,
+        "name": "Cabo USB-C Trançado",
+        "category": "eletrônicos",
+        "price": 29.99,
+        "color": "cinza"
+    },
+    {
+        "id": 17,
+        "name": "Hub USB 7 Portas",
+        "category": "eletrônicos",
+        "price": 89.99,
+        "color": "prata"
+    },
+    {
+        "id": 18,
+        "name": "Suporte para Notebook",
+        "category": "eletrônicos",
+        "price": 119.99,
+        "color": "prata"
+    },
+    {
+        "id": 19,
+        "name": "Mousepad Gamer XL",
+        "category": "eletrônicos",
+        "price": 59.99,
+        "color": "preto"
+    },
+    {
+        "id": 20,
+        "name": "Pendrive 128GB",
+        "category": "eletrônicos",
+        "price": 49.99,
+        "color": "prata"
+    },
+    {
+        "id": 21,
+        "name": "Camiseta Polo",
+        "category": "vestuário",
+        "price": 79.99,
+        "color": "azul"
+    },
+    {
+        "id": 22,
+        "name": "Camisa Social Slim",
+        "category": "vestuário",
+        "price": 119.99,
+        "color": "branco"
+    },
+    {
+        "id": 23,
+        "name": "Jaqueta Corta-Vento",
+        "category": "vestuário",
+        "price": 189.99,
+        "color": "preto"
+    },
+    {
+        "id": 24,
+        "name": "Moletom com Capuz",
+        "category": "vestuário",
+        "price": 129.99,
+        "color": "cinza"
+    },
+    {
+        "id": 25,
+        "name": "Bermuda Cargo",
+        "category": "vestuário",
+        "price": 89.99,
+        "color": "verde"
+    },
+    {
+        "id": 26,
+        "name": "Calça Jogger",
+        "category": "vestuário",
+        "price": 109.99,
+        "color": "preto"
+    },
+    {
+        "id": 27,
+        "name": "Regata Fitness",
+        "category": "vestuário",
+        "price": 39.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 28,
+        "name": "Shorts de Corrida",
+        "category": "vestuário",
+        "price": 59.99,
+        "color": "azul"
+    },
+    {
+        "id": 29,
+        "name": "Blazer Casual",
+        "category": "vestuário",
+        "price": 249.99,
+        "color": "marrom"
+    },
+    {
+        "id": 30,
+        "name": "Suéter de Lã",
+        "category": "vestuário",
+        "price": 159.99,
+        "color": "bege"
+    },
+    {
+        "id": 31,
+        "name": "Tênis de Corrida Leve",
+        "category": "calçados",
+        "price": 199.99,
+        "color": "azul"
+    },
+    {
+        "id": 32,
+        "name": "Bota de Couro",
+        "category": "calçados",
+        "price": 289.99,
+        "color": "marrom"
+    },
+    {
+        "id": 33,
+        "name": "Sapatênis Casual",
+        "category": "calçados",
+        "price": 159.99,
+        "color": "branco"
+    },
+    {
+        "id": 34,
+        "name": "Chinelo Slide",
+        "category": "calçados",
+        "price": 49.99,
+        "color": "preto"
+    },
+    {
+        "id": 35,
+        "name": "Sapato Social",
+        "category": "calçados",
+        "price": 219.99,
+        "color": "preto"
+    },
+    {
+        "id": 36,
+        "name": "Tênis Skate",
+        "category": "calçados",
+        "price": 179.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 37,
+        "name": "Papete Esportiva",
+        "category": "calçados",
+        "price": 99.99,
+        "color": "verde"
+    },
+    {
+        "id": 38,
+        "name": "Mocassim Clássico",
+        "category": "calçados",
+        "price": 169.99,
+        "color": "marrom"
+    },
+    {
+        "id": 39,
+        "name": "Tênis Chunky",
+        "category": "calçados",
+        "price": 229.99,
+        "color": "branco"
+    },
+    {
+        "id": 40,
+        "name": "Alpargata de Lona",
+        "category": "calçados",
+        "price": 59.99,
+        "color": "bege"
+    },
+    {
+        "id": 41,
+        "name": "Carteira de Couro",
+        "category": "acessórios",
+        "price": 79.99,
+        "color": "marrom"
+    },
+    {
+        "id": 42,
+        "name": "Cinto de Couro",
+        "category": "acessórios",
+        "price": 69.99,
+        "color": "preto"
+    },
+    {
+        "id": 43,
+        "name": "Relógio Analógico Clássico",
+        "category": "acessórios",
+        "price": 299.99,
+        "color": "prata"
+    },
+    {
+        "id": 44,
+        "name": "Pulseira de Aço",
+        "category": "acessórios",
+        "price": 49.99,
+        "color": "prata"
+    },
+    {
+        "id": 45,
+        "name": "Corrente de Prata",
+        "category": "acessórios",
+        "price": 129.99,
+        "color": "prata"
+    },
+    {
+        "id": 46,
+        "name": "Anel de Titânio",
+        "category": "acessórios",
+        "price": 89.99,
+        "color": "cinza"
+    },
+    {
+        "id": 47,
+        "name": "Lenço de Seda",
+        "category": "acessórios",
+        "price": 59.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 48,
+        "name": "Gravata Slim",
+        "category": "acessórios",
+        "price": 49.99,
+        "color": "azul"
+    },
+    {
+        "id": 49,
+        "name": "Chapéu Panamá",
+        "category": "acessórios",
+        "price": 99.99,
+        "color": "bege"
+    },
+    {
+        "id": 50,
+        "name": "Bolsa Tiracolo",
+        "category": "acessórios",
+        "price": 139.99,
+        "color": "preto"
+    },
+    {
+        "id": 51,
+        "name": "Garrafa Térmica Inox",
+        "category": "esporte",
+        "price": 69.99,
+        "color": "prata"
+    },
+    {
+        "id": 52,
+        "name": "Corda de Pular Profissional",
+        "category": "esporte",
+        "price": 39.99,
+        "color": "preto"
+    },
+    {
+        "id": 53,
+        "name": "Tapete de Yoga",
+        "category": "esporte",
+        "price": 79.99,
+        "color": "azul"
+    },
+    {
+        "id": 54,
+        "name": "Luvas de Academia",
+        "category": "esporte",
+        "price": 49.99,
+        "color": "preto"
+    },
+    {
+        "id": 55,
+        "name": "Faixa Elástica Kit",
+        "category": "esporte",
+        "price": 59.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 56,
+        "name": "Haltere Emborrachado 5kg",
+        "category": "esporte",
+        "price": 89.99,
+        "color": "preto"
+    },
+    {
+        "id": 57,
+        "name": "Mochila de Trilha 40L",
+        "category": "esporte",
+        "price": 249.99,
+        "color": "verde"
+    },
+    {
+        "id": 58,
+        "name": "Óculos de Natação",
+        "category": "esporte",
+        "price": 59.99,
+        "color": "azul"
+    },
+    {
+        "id": 59,
+        "name": "Bola de Futebol Oficial",
+        "category": "esporte",
+        "price": 129.99,
+        "color": "branco"
+    },
+    {
+        "id": 60,
+        "name": "Caneleira de Proteção",
+        "category": "esporte",
+        "price": 39.99,
+        "color": "preto"
+    },
+    {
+        "id": 61,
+        "name": "Caderno Inteligente A4",
+        "category": "papelaria",
+        "price": 89.99,
+        "color": "preto"
+    },
+    {
+        "id": 62,
+        "name": "Kit Canetas Coloridas 24un",
+        "category": "papelaria",
+        "price": 49.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 63,
+        "name": "Agenda 2025 Premium",
+        "category": "papelaria",
+        "price": 69.99,
+        "color": "marrom"
+    },
+    {
+        "id": 64,
+        "name": "Estojo de Couro",
+        "category": "papelaria",
+        "price": 59.99,
+        "color": "preto"
+    },
+    {
+        "id": 65,
+        "name": "Post-it Neon 6 Blocos",
+        "category": "papelaria",
+        "price": 29.99,
+        "color": "amarelo"
+    },
+    {
+        "id": 66,
+        "name": "Marcador de Texto Kit",
+        "category": "papelaria",
+        "price": 34.99,
+        "color": "amarelo"
+    },
+    {
+        "id": 67,
+        "name": "Lapiseira Profissional 0.5",
+        "category": "papelaria",
+        "price": 24.99,
+        "color": "prata"
+    },
+    {
+        "id": 68,
+        "name": "Régua Metálica 30cm",
+        "category": "papelaria",
+        "price": 19.99,
+        "color": "prata"
+    },
+    {
+        "id": 69,
+        "name": "Clips Coloridos 200un",
+        "category": "papelaria",
+        "price": 14.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 70,
+        "name": "Pasta Organizadora A4",
+        "category": "papelaria",
+        "price": 44.99,
+        "color": "azul"
+    },
+    {
+        "id": 71,
+        "name": "Luminária de Mesa LED",
+        "category": "casa",
+        "price": 119.99,
+        "color": "branco"
+    },
+    {
+        "id": 72,
+        "name": "Organizador de Cabos",
+        "category": "casa",
+        "price": 29.99,
+        "color": "preto"
+    },
+    {
+        "id": 73,
+        "name": "Suporte para Celular",
+        "category": "casa",
+        "price": 39.99,
+        "color": "prata"
+    },
+    {
+        "id": 74,
+        "name": "Caixa Organizadora Empilhável",
+        "category": "casa",
+        "price": 49.99,
+        "color": "branco"
+    },
+    {
+        "id": 75,
+        "name": "Difusor de Aromas",
+        "category": "casa",
+        "price": 79.99,
+        "color": "bege"
+    },
+    {
+        "id": 76,
+        "name": "Porta-Retrato Digital",
+        "category": "casa",
+        "price": 149.99,
+        "color": "preto"
+    },
+    {
+        "id": 77,
+        "name": "Despertador Retrô",
+        "category": "casa",
+        "price": 69.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 78,
+        "name": "Vaso Decorativo Cerâmica",
+        "category": "casa",
+        "price": 59.99,
+        "color": "branco"
+    },
+    {
+        "id": 79,
+        "name": "Porta-Canetas de Madeira",
+        "category": "casa",
+        "price": 34.99,
+        "color": "marrom"
+    },
+    {
+        "id": 80,
+        "name": "Quadro Decorativo 40x60",
+        "category": "casa",
+        "price": 89.99,
+        "color": "preto"
+    },
+    {
+        "id": 81,
+        "name": "Caneca Térmica 450ml",
+        "category": "casa",
+        "price": 49.99,
+        "color": "preto"
+    },
+    {
+        "id": 82,
+        "name": "Kit Chaves de Fenda 12pcs",
+        "category": "ferramentas",
+        "price": 59.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 83,
+        "name": "Trena a Laser 30m",
+        "category": "ferramentas",
+        "price": 149.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 84,
+        "name": "Lanterna Tática LED",
+        "category": "ferramentas",
+        "price": 79.99,
+        "color": "preto"
+    },
+    {
+        "id": 85,
+        "name": "Multímetro Digital",
+        "category": "ferramentas",
+        "price": 89.99,
+        "color": "amarelo"
+    },
+    {
+        "id": 86,
+        "name": "Kit Brocas Titânio 15pcs",
+        "category": "ferramentas",
+        "price": 69.99,
+        "color": "prata"
+    },
+    {
+        "id": 87,
+        "name": "Alicate Universal",
+        "category": "ferramentas",
+        "price": 44.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 88,
+        "name": "Chave Inglesa Ajustável",
+        "category": "ferramentas",
+        "price": 54.99,
+        "color": "prata"
+    },
+    {
+        "id": 89,
+        "name": "Caixa de Ferramentas Completa",
+        "category": "ferramentas",
+        "price": 199.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 90,
+        "name": "Nível a Laser",
+        "category": "ferramentas",
+        "price": 119.99,
+        "color": "verde"
+    },
+    {
+        "id": 91,
+        "name": "Parafusadeira Recarregável",
+        "category": "ferramentas",
+        "price": 179.99,
+        "color": "azul"
+    },
+    {
+        "id": 92,
+        "name": "Fone Gamer com Microfone",
+        "category": "eletrônicos",
+        "price": 199.99,
+        "color": "vermelho"
+    },
+    {
+        "id": 93,
+        "name": "Controle Bluetooth",
+        "category": "eletrônicos",
+        "price": 149.99,
+        "color": "preto"
+    },
+    {
+        "id": 94,
+        "name": "Camiseta Básica Algodão",
+        "category": "vestuário",
+        "price": 34.99,
+        "color": "branco"
+    },
+    {
+        "id": 95,
+        "name": "Calça Moletom Confort",
+        "category": "vestuário",
+        "price": 89.99,
+        "color": "cinza"
+    },
+    {
+        "id": 96,
+        "name": "Tênis Casual Urbano",
+        "category": "calçados",
+        "price": 189.99,
+        "color": "cinza"
+    },
+    {
+        "id": 97,
+        "name": "Meia Esportiva Kit 6 Pares",
+        "category": "esporte",
+        "price": 49.99,
+        "color": "branco"
+    },
+    {
+        "id": 98,
+        "name": "Squeeze Esportivo 1L",
+        "category": "esporte",
+        "price": 34.99,
+        "color": "azul"
+    },
+    {
+        "id": 99,
+        "name": "Toalha de Microfibra",
+        "category": "esporte",
+        "price": 29.99,
+        "color": "cinza"
+    },
+    {
+        "id": 100,
+        "name": "Porta-Moedas Compacto",
+        "category": "acessórios",
+        "price": 29.99,
+        "color": "marrom"
     }
 ]

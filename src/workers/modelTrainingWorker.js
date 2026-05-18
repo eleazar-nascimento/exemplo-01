@@ -1,9 +1,15 @@
 import 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js';
 import { workerEvents } from '../events/constants.js';
+import * as ChromaService from '../service/ChromaService.js';
 
 console.log('Model training worker initialized');
 let _globalCtx = {};
 let _model = null;
+let _chromaAvailable = false;
+
+// Quantidade de candidatos pré-filtrados pelo ChromaDB
+// Em um catálogo de 100 produtos, retorna os 20 mais similares
+const CHROMA_TOP_N = 20;
 
 const WEIGHTS = {
     category: 0.4,
@@ -214,63 +220,93 @@ async function trainModel({ users }) {
 
     const trainData = createTrainingData(context);
     _model = await configureNeuralNetAndTrain(trainData);
- 
+
+    // === ChromaDB: armazenar vetores dos produtos ===
+    _chromaAvailable = await ChromaService.isAvailable();
+    if (_chromaAvailable) {
+        try {
+            console.log('[Worker] ChromaDB disponível — armazenando vetores...');
+            await ChromaService.getOrCreateCollection();
+            const stored = await ChromaService.addProductVectors(context.productVectors);
+            _chromaAvailable = stored;
+        } catch (error) {
+            console.warn('[Worker] Erro ao armazenar no ChromaDB:', error);
+            _chromaAvailable = false;
+        }
+    }
+    if (!_chromaAvailable) {
+        console.warn('[Worker] ChromaDB indisponível — usando fallback (todos os produtos)');
+    }
+
     postMessage({ type: workerEvents.progressUpdate, progress: { progress: 100 } });
-    postMessage({ type: workerEvents.trainingComplete });
+    postMessage({ type: workerEvents.trainingComplete, chromaAvailable: _chromaAvailable });
 }
-function recommend(user, ctx) {
+async function recommend(user, ctx) {
     if(!_model) {
         console.warn('Model not trained yet');
         return;
     }
 
     const context = _globalCtx
-
     const userVector = encodeUser(user, _globalCtx).dataSync();
 
-    // Em Aplicações reais:
-    // Armazene todos os vetores de produtos em um banco de dados
-    // vetorial (como Postgres, Neo4j ou Pinecone), CromaDB
-    // Consulta: Encontre os 200 produtos mais próximos dos usuário
-    // Execute _model.predict() apenas nesses produtos
+    let candidateVectors;
+    let usedChroma = false;
 
-    // crie pares de entrada: para cada produto, concatene o 
-    // vetor do usuario
-    //.  com o vetor codificado do produto.
-    //   por quê? O modelo prevê o "score de compatibilidade"
-    // para cada par (usuario, produto).
+    // === ChromaDB: pré-filtrar candidatos por similaridade vetorial ===
+    // Ao invés de rodar predict() em TODOS os 100 produtos,
+    // usamos o ChromaDB para encontrar os top N mais similares ao usuário
+    // e rodamos predict() apenas nesses candidatos.
+    if (_chromaAvailable) {
+        const candidates = await ChromaService.querySimilar(userVector, CHROMA_TOP_N);
 
-    const inputs = context.productVectors.map(({vector}) => {
+        if (candidates && candidates.length > 0) {
+            // Filtrar os productVectors para incluir apenas os candidatos do ChromaDB
+            const candidateIds = new Set(candidates.map(c => c.productId));
+            candidateVectors = context.productVectors.filter(
+                p => candidateIds.has(p.meta.id)
+            );
+            usedChroma = true;
+            console.log(`[Worker] ChromaDB pré-filtrou ${candidates.length} candidatos de ${context.productVectors.length} produtos`);
+        }
+    }
+
+    // Fallback: se ChromaDB não disponível ou retornou vazio, usar todos os produtos
+    if (!candidateVectors || candidateVectors.length === 0) {
+        candidateVectors = context.productVectors;
+        console.log(`[Worker] Usando todos os ${candidateVectors.length} produtos (sem pré-filtragem)`);
+    }
+
+    // Crie pares de entrada: para cada produto candidato, concatene o
+    // vetor do usuário com o vetor codificado do produto.
+    // O modelo prevê o "score de compatibilidade" para cada par (usuário, produto).
+    const inputs = candidateVectors.map(({vector}) => {
         return [...userVector, ...vector];
     })
 
-    // Converta todos esses pares (usuarios, produto) em um unico tensor.
-    // Formato: [numProdutos, inputDimention]
-
+    // Converta todos esses pares (usuários, produto) em um único tensor.
     const inputTensor = tf.tensor2d(inputs);
 
-    // Rode a rede neural treinada em todos os pares (usuario, produto) para obter uma vez.
-        // O resultado é uma pontuação para cada produto em entre 0 e 1.
-    
-        // Quanto maior, maior a probabilidade do usuário querer aquele produto.
-
+    // Rode a rede neural treinada nos candidatos para obter scores.
+    // O resultado é uma pontuação para cada produto entre 0 e 1.
+    // Quanto maior, maior a probabilidade do usuário querer aquele produto.
     const predictions = _model.predict(inputTensor).dataSync();
-        // Extraia as pontuações para un array Js normal.
 
-    const scores = predictions
-    const recommendations = context.productVectors.map((product, index) => ({
+    const recommendations = candidateVectors.map((product, index) => ({
         ...product.meta,
         name: product.name,
-        score: scores[index], // previsão do modelo para estre produto
+        score: predictions[index],
     }))
 
     const sortedRecommendations = recommendations.sort((a, b) => b.score - a.score);
 
-    
     postMessage({
         type: workerEvents.recommend,
         user,
-        recommendations: sortedRecommendations
+        recommendations: sortedRecommendations,
+        chromaUsed: usedChroma,
+        totalProducts: context.productVectors.length,
+        candidatesFiltered: candidateVectors.length,
     });
 }
 
@@ -280,7 +316,13 @@ const handlers = {
     [workerEvents.recommend]: d => recommend(d.user, _globalCtx),
 };
 
-self.onmessage = e => {
+self.onmessage = async (e) => {
     const { action, ...data } = e.data;
-    if (handlers[action]) handlers[action](data);
+    if (handlers[action]) {
+        try {
+            await handlers[action](data);
+        } catch (error) {
+            console.error(`[Worker] Erro no handler '${action}':`, error);
+        }
+    }
 };

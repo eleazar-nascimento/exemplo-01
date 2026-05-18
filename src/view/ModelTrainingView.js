@@ -77,4 +77,40 @@ export class ModelView extends View {
 
         this.#allUsersPurchasesList.innerHTML = html;
     }
+
+    updateChromaStatus(available) {
+        const statusEl = document.querySelector('#chromaStatus');
+        if (!statusEl) return;
+
+        if (available) {
+            statusEl.innerHTML = `
+                <span class="badge bg-success">
+                    <i class="bi bi-database-check"></i> ChromaDB Conectado
+                </span>`;
+        } else {
+            statusEl.innerHTML = `
+                <span class="badge bg-warning text-dark">
+                    <i class="bi bi-database-x"></i> ChromaDB Offline (fallback)
+                </span>`;
+        }
+    }
+
+    updateRecommendationStats({ chromaUsed, totalProducts, candidatesFiltered }) {
+        const statsEl = document.querySelector('#chromaStats');
+        if (!statsEl) return;
+
+        if (chromaUsed) {
+            statsEl.innerHTML = `
+                <small class="text-muted">
+                    <i class="bi bi-funnel"></i> 
+                    ChromaDB: ${candidatesFiltered}/${totalProducts} produtos pré-filtrados
+                </small>`;
+        } else {
+            statsEl.innerHTML = `
+                <small class="text-muted">
+                    <i class="bi bi-collection"></i> 
+                    Analisando todos os ${totalProducts} produtos
+                </small>`;
+        }
+    }
 }
